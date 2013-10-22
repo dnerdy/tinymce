@@ -112,7 +112,7 @@ tinymce.PluginManager.add('noneditable', function(editor) {
 			}, invisibleChar);
 			*/
 
-			caretContainer = dom.create('span', {id: caretContainerId, 'data-mce-bogus': true}, invisibleChar);
+			caretContainer = dom.create('span', {id: caretContainerId, 'data-mce-bogus': true}, '');
 
 			if (before) {
 				target.parentNode.insertBefore(caretContainer, target);
@@ -120,7 +120,7 @@ tinymce.PluginManager.add('noneditable', function(editor) {
 				dom.insertAfter(caretContainer, target);
 			}
 
-			rng.setStart(caretContainer.firstChild, 1);
+			rng.setStart(caretContainer, 0);
 			rng.collapse(true);
 			selection.setRng(rng);
 
