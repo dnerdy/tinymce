@@ -113,7 +113,8 @@ define("tinymce/util/Observable", [
 		},
 
 		/**
-		 * Binds an event listener to a specific event by name.
+		 * Binds an event listener to a specific event by name,
+		 * appending it to the array of listeners.
 		 *
 		 * @method on
 		 * @param {String} name Event name or space separated list of events to bind.
@@ -125,6 +126,27 @@ define("tinymce/util/Observable", [
 		 * });
 		 */
 		on: function(name, callback) {
+			this._on(name, callback, 'push');
+		},
+
+		/**
+		 * Binds an event listener to a specific event by name,
+		 * prepending it to the array of listeners.
+		 *
+		 * @method onTop
+		 * @param {String} name Event name or space separated list of events to bind.
+		 * @param {callback} callback Callback to be executed when the event occurs.
+		 * @return {Object} Current class instance.
+		 * @example
+		 * instance.onTop('event', function(e) {
+		 *     // Callback logic
+		 * });
+		 */
+		onTop: function(name, callback) {
+			this._on(name, callback, 'unshift');
+		},
+
+		_on: function(name, callback, method) {
 			var self = this, bindings, handlers, names, i;
 
 			if (callback === false) {
@@ -152,7 +174,7 @@ define("tinymce/util/Observable", [
 						}
 					}
 
-					handlers.push(callback);
+					handlers[method](callback);
 				}
 			}
 
